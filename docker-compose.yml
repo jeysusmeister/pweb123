@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: pw_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'ptves'
+      MYSQL_USER: 'utves'
+      MYSQL_ROOT_PASSWORD: 's1st3m4s2424bd'
+      MYSQL_PASSWORD: 's1st3m4s2424bd'
+    ports:
+      - '4406:3306'
+#    expose:
+ #     - 
+    volumes:
+      - './mysql/:/var/lib/mysql'
+
+  tves:
+    image: wordpress
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      WORDPRESS_DB_HOST: 'db'
+      WORDPRESS_DB_USER: 'utves'
+      WORDPRESS_DB_PASSWORD: 's1st3m4s2424bd'
+      WORDPRESS_DB_NAME: 'ptves'
+    volumes:
+      - './src/plugins:/var/www/html/wp-content/plugin'
+      - './src/themes:/var/www/html/wp-content/themes'
+      - './src/uploads:/var/www/html/wp-content/uploads'
